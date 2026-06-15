@@ -1,0 +1,65 @@
+@extends('admin.layout')
+
+@section('title', 'Create Company Profile')
+@section('page-heading', 'Create Company Profile')
+
+@section('content')
+<div class="card border-0 shadow-sm p-4">
+    <form action="{{ route('admin.company-profiles.store') }}" method="POST">
+        @csrf
+
+        <div class="mb-3">
+            <label class="form-label">Company Name</label>
+            <input type="text" name="name" class="form-control" value="{{ old('name') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Phone</label>
+            <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <textarea name="address" rows="3" class="form-control">{{ old('address') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Website</label>
+            <input type="url" name="website" class="form-control" value="{{ old('website') }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tagline</label>
+            <input type="text" name="tagline" class="form-control" value="{{ old('tagline') }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" rows="4" class="form-control">{{ old('description') }}</textarea>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label">Facebook URL</label>
+                <input type="url" name="facebook" class="form-control" value="{{ old('facebook') }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Instagram URL</label>
+                <input type="url" name="instagram" class="form-control" value="{{ old('instagram') }}">
+            </div>
+        </div>
+
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" name="active" id="active" checked>
+            <label class="form-check-label" for="active">Active</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Company Profile</button>
+    </form>
+</div>
+@endsection

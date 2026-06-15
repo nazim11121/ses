@@ -18,8 +18,8 @@
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}" href="{{ route('admin.products.index') }}">Products</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}" href="{{ route('admin.categories.index') }}">Categories</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}" href="{{ route('admin.sliders.index') }}">Slider</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}" href="{{ route('admin.contacts.index') }}">Contact Messages</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}" href="{{ route('admin.orders.index') }}">Orders</a></li>
+            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}" href="{{ route('admin.company-profiles.index') }}">Company Profile</a></li>
+            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}" href="{{ route('admin.pages.edit') }}">About Page</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">View Shop</a></li>
         </ul>
     </aside>
@@ -30,10 +30,25 @@
                 <h2 class="h4 mb-0">@yield('page-heading', 'Admin Panel')</h2>
             </div>
             @auth
-                <form action="{{ route('logout') }}" method="POST" class="mb-0">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-secondary">Logout</button>
-                </form>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="adminProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="rounded-circle bg-secondary text-white d-inline-flex justify-content-center align-items-center me-2" style="width:36px; height:36px; font-size:.95rem;">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </span>
+                        {{ auth()->user()->name }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminProfileDropdown">
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.profile.password.edit') }}">Change Password</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             @endauth
         </header>
 

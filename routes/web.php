@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\CompanyProfileController as AdminCompanyProfileController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\SliderController as AdminSliderController;
 use App\Http\Controllers\AuthController;
@@ -43,4 +46,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('sliders', AdminSliderController::class)->except(['show']);
     Route::resource('contacts', AdminContactController::class)->only(['index', 'destroy']);
     Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::get('pages/edit', [AdminPageController::class, 'edit'])->name('pages.edit');
+    Route::put('pages/update', [AdminPageController::class, 'update'])->name('pages.update');
+    Route::get('profile', [AdminProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
+    Route::get('profile/password', [AdminProfileController::class, 'editPassword'])->name('profile.password.edit');
+    Route::put('profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::resource('company-profiles', AdminCompanyProfileController::class)->except(['show']);
 });
