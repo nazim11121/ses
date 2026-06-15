@@ -17,6 +17,7 @@
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}" href="{{ route('admin.products.index') }}">Products</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}" href="{{ route('admin.categories.index') }}">Categories</a></li>
+            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}" href="{{ route('admin.sliders.index') }}">Slider</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}" href="{{ route('admin.contacts.index') }}">Contact Messages</a></li>
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}" href="{{ route('admin.orders.index') }}">Orders</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">View Shop</a></li>
@@ -28,6 +29,12 @@
             <div>
                 <h2 class="h4 mb-0">@yield('page-heading', 'Admin Panel')</h2>
             </div>
+            @auth
+                <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-secondary">Logout</button>
+                </form>
+            @endauth
         </header>
 
         <main class="p-4">

@@ -34,7 +34,14 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="text-center text-muted">No contact messages yet.</td></tr>
+                    <tr>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">No contact messages yet.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>

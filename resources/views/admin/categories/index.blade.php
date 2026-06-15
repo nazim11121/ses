@@ -35,7 +35,12 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4" class="text-center text-muted">No categories created yet.</td></tr>
+                    <tr>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">No categories created yet.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>

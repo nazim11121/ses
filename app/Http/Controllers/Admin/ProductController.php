@@ -31,6 +31,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|string|max:255',
+            'section' => 'nullable|string|in:new_arrival,featured,top_rated',
             'active' => 'nullable|boolean',
         ]);
 
@@ -58,7 +59,8 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|string|max:255',
-            'active' => 'nullable|boolean',
+            'section' => 'nullable|string|in:new_arrival,featured,top_rated',
+            'active' => 'nullable',
         ]);
 
         $product->update(array_merge($request->all(), ['active' => $request->has('active')]));

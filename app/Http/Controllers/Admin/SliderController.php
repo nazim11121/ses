@@ -25,7 +25,7 @@ class SliderController extends Controller
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:100',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => 'nullable|string|max:255',
             'image' => 'required|string|max:255',
             'position' => 'nullable|integer|min:0',
             'active' => 'nullable|boolean',
@@ -50,10 +50,10 @@ class SliderController extends Controller
             'title' => 'required|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:100',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => 'nullable|string|max:255',
             'image' => 'required|string|max:255',
             'position' => 'nullable|integer|min:0',
-            'active' => 'nullable|boolean',
+            'active' => 'nullable',
         ]);
 
         $slide->update(array_merge($request->all(), ['active' => $request->has('active')]));

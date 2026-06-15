@@ -28,7 +28,13 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="text-center text-muted">No orders yet.</td></tr>
+                    <tr>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">-</td>
+                        <td class="text-center text-muted">No orders yet.</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>

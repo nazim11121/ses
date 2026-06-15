@@ -39,6 +39,15 @@
             <div class="form-text">Enter an absolute image URL or a path relative to your public folder, e.g. <code>images/saree.jpg</code>.</div>
         </div>
         <div class="mb-3">
+            <label class="form-label">Section</label>
+            <select name="section" class="form-select">
+                <option value="">None</option>
+                <option value="new_arrival"{{ old('section', $product->section) == 'new_arrival' ? ' selected' : '' }}>New Arrival</option>
+                <option value="featured"{{ old('section', $product->section) == 'featured' ? ' selected' : '' }}>Featured Product</option>
+                <option value="top_rated"{{ old('section', $product->section) == 'top_rated' ? ' selected' : '' }}>Top Rated</option>
+            </select>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Description</label>
             <textarea name="description" rows="5" class="form-control" required>{{ old('description', $product->description) }}</textarea>
         </div>

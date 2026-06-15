@@ -6,35 +6,36 @@
 <div class="mb-5">
     <div id="homeSlider" class="carousel slide home-slider" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#homeSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#homeSlider" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#homeSlider" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            @forelse($slides as $slide)
+                <button type="button" data-bs-target="#homeSlider" data-bs-slide-to="{{ $loop->index }}" class="{{ $loop->first ? 'active' : '' }}" aria-current="{{ $loop->first ? 'true' : 'false' }}" aria-label="Slide {{ $loop->iteration }}"></button>
+            @empty
+                <button type="button" data-bs-target="#homeSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            @endforelse
         </div>
         <div class="carousel-inner rounded-4 overflow-hidden shadow-sm">
-            <div class="carousel-item active">
-                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f8?auto=format&fit=crop&w=1300&q=80" class="d-block w-100" alt="Bangladeshi saree">
-                <div class="carousel-caption d-none d-md-block text-start">
-                    <h2 class="display-6 fw-bold">Elegant Bangladeshi Sarees</h2>
-                    <p>Discover premium handwoven designs for every celebration.</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-primary">Shop Now</a>
+            @forelse($slides as $slide)
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                    <img src="{{ $slide->image_url }}" class="d-block w-100" alt="{{ $slide->title }}">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                        <h2 class="display-6 fw-bold">{{ $slide->title }}</h2>
+                        <p>{{ $slide->subtitle }}</p>
+                        @if($slide->button_text && $slide->button_link)
+                            <a href="{{ $slide->button_link }}" class="btn btn-primary">{{ $slide->button_text }}</a>
+                        @elseif($slide->button_text)
+                            <span class="btn btn-primary disabled">{{ $slide->button_text }}</span>
+                        @endif
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1300&q=80" class="d-block w-100" alt="Silk saree">
-                <div class="carousel-caption d-none d-md-block text-start">
-                    <h2 class="display-6 fw-bold">Luxury Silk Collection</h2>
-                    <p>Rich textures and vibrant colors, curated just for you.</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-primary">Browse Collection</a>
+            @empty
+                <div class="carousel-item active">
+                    <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f8?auto=format&fit=crop&w=1300&q=80" class="d-block w-100" alt="Bangladeshi saree">
+                    <div class="carousel-caption d-none d-md-block text-start">
+                        <h2 class="display-6 fw-bold">Elegant Bangladeshi Sarees</h2>
+                        <p>Discover premium handwoven designs for every celebration.</p>
+                        <a href="{{ route('products.index') }}" class="btn btn-primary">Shop Now</a>
+                    </div>
                 </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1520975917114-799e5b44c351?auto=format&fit=crop&w=1300&q=80" class="d-block w-100" alt="Designer saree">
-                <div class="carousel-caption d-none d-md-block text-start">
-                    <h2 class="display-6 fw-bold">Modern Designer Sarees</h2>
-                    <p>Style your wardrobe with comfortable, statement-making drapes.</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-primary">View More</a>
-                </div>
-            </div>
+            @endforelse
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#homeSlider" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

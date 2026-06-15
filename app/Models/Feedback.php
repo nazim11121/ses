@@ -4,33 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Category;
 
-class Product extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'category_id',
-        'name',
-        'slug',
-        'description',
-        'price',
-        'image',
-        'stock',
-        'active',
-        'section',
-    ];
+    protected $table = 'feedback';
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
+    protected $fillable = [
+        'name',
+        'designation',
+        'message',
+        'image',
+        'position',
+        'active',
+    ];
 
     public function getImageUrlAttribute()
     {
         if (! $this->image) {
-            return asset('images/default-saree.jpg');
+            return asset('images/default-avatar.png');
         }
 
         return filter_var($this->image, FILTER_VALIDATE_URL)
