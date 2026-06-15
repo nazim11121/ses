@@ -1,0 +1,72 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6fb;
+    color: #333;
+}
+
+.hero,
+header {
+    background: linear-gradient(135deg, #f9e6f7 0%, #ffe6d1 100%);
+}
+
+.navbar-brand {
+    letter-spacing: 0.03em;
+}
+
+.product-card,
+.card {
+    border-radius: 1rem;
+}
+
+.product-card img {
+    min-height: 280px;
+    object-fit: cover;
+}
+
+footer {
+    background: #0f172a;
+}
+
+footer a {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+footer a:hover {
+    color: white;
+}
+
+.btn-outline-primary,
+.btn-primary {
+    border-radius: 50px;
+}
+
+.btn-outline-secondary,
+.btn-secondary {
+    border-radius: 50px;
+}
+
+.home-slider .carousel-item {
+    min-height: 420px;
+}
+
+.home-slider .carousel-item img {
+    object-fit: cover;
+    height: 420px;
+}
+
+.feedback-card {
+    border-radius: 1.5rem;
+    background: #fff;
+}
+
+.admin .card,
+.admin .table {
+    border-radius: 1rem;
+}
+
+@media (max-width: 768px) {
+    .hero,
+    header {
+        text-align: center;
+    }
+}
