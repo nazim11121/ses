@@ -6,7 +6,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Company Profile</h3>
-    <a href="{{ route('admin.company-profiles.create') }}" class="btn btn-primary">Add Delivery Charge Setting</a>
+    @if(!$profile)
+        <a href="{{ route('admin.company-profiles.create') }}" class="btn btn-primary">Create Company Profile</a>
+    @endif
 </div>
 <div class="card border-0 shadow-sm">
     <div class="table-responsive">
@@ -14,43 +16,28 @@
             <thead class="table-light">
                 <tr>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Website</th>
+                    <th>Owner</th>
                     <th>Delivery Charge</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @forelse($profiles as $profile)
+                @if($profile)
                     <tr>
                         <td>{{ $profile->name }}</td>
-                        <td>{{ $profile->email ?? '-' }}</td>
-                        <td>{{ $profile->phone ?? '-' }}</td>
-                        <td>{{ $profile->website ? parse_url($profile->website, PHP_URL_HOST) : '-' }}</td>
+                        <td>{{ $profile->owner_name ?? '-' }}</td>
                         <td>{{ $profile->dhaka_delivery_charge ?? 50 }} / {{ $profile->outside_dhaka_delivery_charge ?? 100 }}</td>
                         <td>{{ $profile->active ? 'Active' : 'Inactive' }}</td>
                         <td class="text-end">
-                            <a href="{{ route('admin.company-profiles.edit', $profile->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                            <form action="{{ route('admin.company-profiles.destroy', $profile->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            <a href="{{ route('admin.company-profiles.edit', $profile->id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                         </td>
                     </tr>
-                @empty
+                @else
                     <tr>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">-</td>
-                        <td class="text-center text-muted">No company profiles yet.</td>
+                        <td class="text-center text-muted" colspan="5">No company profile created yet.</td>
                     </tr>
-                @endforelse
+                @endif
             </tbody>
         </table>
     </div>

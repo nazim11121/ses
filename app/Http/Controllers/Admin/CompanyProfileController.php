@@ -10,25 +10,38 @@ class CompanyProfileController extends Controller
 {
     public function index()
     {
-        $profiles = CompanyProfile::latest()->get();
-        return view('admin.company_profiles.index', compact('profiles'));
+        $profile = CompanyProfile::first();
+        return view('admin.company_profiles.index', compact('profile'));
     }
 
     public function create()
     {
+        if ($profile = CompanyProfile::first()) {
+            return redirect()->route('admin.company-profiles.edit', $profile->id)
+                ->with('info', 'A company profile already exists. You can update it here.');
+        }
+
         return view('admin.company_profiles.create');
     }
 
     public function store(Request $request)
     {
+        if (CompanyProfile::exists()) {
+            return redirect()->route('admin.company-profiles.index')->with('info', 'A company profile already exists. You can update it instead.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
+            'owner_name' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
+            'mobile_number' => 'nullable|string|max:50',
             'address' => 'nullable|string',
             'website' => 'nullable|url|max:255',
             'tagline' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,ico|max:2048',
+            'favicon_icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,ico|max:2048',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
             'dhaka_delivery_charge' => 'nullable|integer|min:0',
@@ -36,10 +49,12 @@ class CompanyProfileController extends Controller
             'active' => 'nullable',
         ]);
 
-        CompanyProfile::create(array_merge($request->only([
+        $data = $request->only([
             'name',
+            'owner_name',
             'email',
             'phone',
+            'mobile_number',
             'address',
             'website',
             'tagline',
@@ -48,7 +63,17 @@ class CompanyProfileController extends Controller
             'instagram',
             'dhaka_delivery_charge',
             'outside_dhaka_delivery_charge',
-        ]), ['active' => $request->has('active')]));
+        ]);
+
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_profiles', 'public');
+        }
+
+        if ($request->hasFile('favicon_icon')) {
+            $data['favicon_icon'] = $request->file('favicon_icon')->store('company_profiles', 'public');
+        }
+
+        CompanyProfile::create(array_merge($data, ['active' => $request->has('active')]));
 
         return redirect()->route('admin.company-profiles.index')->with('success', 'Company profile created successfully.');
     }
@@ -65,12 +90,16 @@ class CompanyProfileController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'owner_name' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:50',
+            'mobile_number' => 'nullable|string|max:50',
             'address' => 'nullable|string',
             'website' => 'nullable|url|max:255',
             'tagline' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,svg,ico|max:2048',
+            'favicon_icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,ico|max:2048',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
             'dhaka_delivery_charge' => 'nullable|integer|min:0',
@@ -78,10 +107,12 @@ class CompanyProfileController extends Controller
             'active' => 'nullable',
         ]);
 
-        $profile->update(array_merge($request->only([
+        $data = $request->only([
             'name',
+            'owner_name',
             'email',
             'phone',
+            'mobile_number',
             'address',
             'website',
             'tagline',
@@ -90,7 +121,17 @@ class CompanyProfileController extends Controller
             'instagram',
             'dhaka_delivery_charge',
             'outside_dhaka_delivery_charge',
-        ]), ['active' => $request->has('active')]));
+        ]);
+
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_profiles', 'public');
+        }
+
+        if ($request->hasFile('favicon_icon')) {
+            $data['favicon_icon'] = $request->file('favicon_icon')->store('company_profiles', 'public');
+        }
+
+        $profile->update(array_merge($data, ['active' => $request->has('active')]));
 
         return redirect()->route('admin.company-profiles.index')->with('success', 'Company profile updated successfully.');
     }

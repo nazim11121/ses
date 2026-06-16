@@ -52,5 +52,5 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::get('profile/password', [AdminProfileController::class, 'editPassword'])->name('profile.password.edit');
     Route::put('profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password.update');
-    Route::resource('company-profiles', AdminCompanyProfileController::class)->except(['show']);
+    Route::resource('company-profiles', AdminCompanyProfileController::class)->except(['show', 'destroy']);
 });

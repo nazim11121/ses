@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="card border-0 shadow-sm p-4">
-    <form action="{{ route('admin.company-profiles.update', $profile->id) }}" method="POST">
+    <form action="{{ route('admin.company-profiles.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -13,15 +13,43 @@
             <label class="form-label">Company Name</label>
             <input type="text" name="name" class="form-control" value="{{ old('name', $profile->name) }}" required>
         </div>
-
+        <div class="mb-3">
+            <label class="form-label">Owner Name</label>
+            <input type="text" name="owner_name" class="form-control" value="{{ old('owner_name', $profile->owner_name) }}">
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control" value="{{ old('phone', $profile->phone) }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Mobile Number</label>
+                <input type="text" name="mobile_number" class="form-control" value="{{ old('mobile_number', $profile->mobile_number) }}">
+            </div>
+        </div>
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Company Logo</label>
+                <input type="file" name="company_logo" class="form-control" accept=".png,.jpg,.jpeg,.svg,.ico" id="companyLogoInput">
+                @if($profile->company_logo)
+                    <img id="companyLogoPreview" src="{{ asset('storage/' . $profile->company_logo) }}" class="img-fluid mt-3" style="max-height: 120px; object-fit: contain;" alt="Logo Preview">
+                @else
+                    <img id="companyLogoPreview" src="#" class="img-fluid mt-3 d-none" style="max-height: 120px; object-fit: contain;" alt="Logo Preview">
+                @endif
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Favicon Icon</label>
+                <input type="file" name="favicon_icon" class="form-control" accept=".png,.jpg,.jpeg,.svg,.ico" id="faviconIconInput">
+                @if($profile->favicon_icon)
+                    <img id="faviconIconPreview" src="{{ asset('storage/' . $profile->favicon_icon) }}" class="img-fluid mt-3" style="max-height: 120px; object-fit: contain;" alt="Favicon Preview">
+                @else
+                    <img id="faviconIconPreview" src="#" class="img-fluid mt-3 d-none" style="max-height: 120px; object-fit: contain;" alt="Favicon Preview">
+                @endif
+            </div>
+        </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="email" name="email" class="form-control" value="{{ old('email', $profile->email) }}">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Phone</label>
-            <input type="text" name="phone" class="form-control" value="{{ old('phone', $profile->phone) }}">
         </div>
 
         <div class="mb-3">
@@ -73,4 +101,32 @@
         <button type="submit" class="btn btn-primary">Update Company Profile</button>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const logoInput = document.getElementById('companyLogoInput');
+        const logoPreview = document.getElementById('companyLogoPreview');
+        const faviconInput = document.getElementById('faviconIconInput');
+        const faviconPreview = document.getElementById('faviconIconPreview');
+
+        function previewFile(input, preview) {
+            const file = input.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        logoInput?.addEventListener('change', function () {
+            previewFile(this, logoPreview);
+        });
+        faviconInput?.addEventListener('change', function () {
+            previewFile(this, faviconPreview);
+        });
+    });
+</script>
 @endsection

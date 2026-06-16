@@ -11,12 +11,16 @@ class CompanyProfile extends Model
 
     protected $fillable = [
         'name',
+        'owner_name',
         'email',
         'phone',
+        'mobile_number',
         'address',
         'website',
         'tagline',
         'description',
+        'company_logo',
+        'favicon_icon',
         'facebook',
         'instagram',
         'active',
