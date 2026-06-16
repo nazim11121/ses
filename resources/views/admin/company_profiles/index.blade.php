@@ -5,8 +5,8 @@
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="mb-0">Company Profiles</h3>
-    <a href="{{ route('admin.company-profiles.create') }}" class="btn btn-primary">Add Company Profile</a>
+    <h3 class="mb-0">Company Profile</h3>
+    <a href="{{ route('admin.company-profiles.create') }}" class="btn btn-primary">Add Delivery Charge Setting</a>
 </div>
 <div class="card border-0 shadow-sm">
     <div class="table-responsive">
@@ -17,6 +17,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Website</th>
+                    <th>Delivery Charge</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
@@ -28,6 +29,7 @@
                         <td>{{ $profile->email ?? '-' }}</td>
                         <td>{{ $profile->phone ?? '-' }}</td>
                         <td>{{ $profile->website ? parse_url($profile->website, PHP_URL_HOST) : '-' }}</td>
+                        <td>{{ $profile->dhaka_delivery_charge ?? 50 }} / {{ $profile->outside_dhaka_delivery_charge ?? 100 }}</td>
                         <td>{{ $profile->active ? 'Active' : 'Inactive' }}</td>
                         <td class="text-end">
                             <a href="{{ route('admin.company-profiles.edit', $profile->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
@@ -40,6 +42,7 @@
                     </tr>
                 @empty
                     <tr>
+                        <td class="text-center text-muted">-</td>
                         <td class="text-center text-muted">-</td>
                         <td class="text-center text-muted">-</td>
                         <td class="text-center text-muted">-</td>

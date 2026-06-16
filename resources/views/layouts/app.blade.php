@@ -8,7 +8,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
 <body>
-<header class="bg-white shadow-sm">
+<header class="bg-white shadow-sm site-header">
     <div class="container py-3 d-flex align-items-center justify-content-between">
         <a class="navbar-brand fs-3 fw-bold text-dark" href="{{ route('home') }}">Saree Bazaar</a>
         <nav class="d-none d-md-flex gap-4 align-items-center">

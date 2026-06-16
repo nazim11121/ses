@@ -13,11 +13,12 @@ class ProductController extends Controller
     {
         $categories = Category::orderBy('name')->get();
         $slides = Slider::where('active', true)->orderBy('position')->get();
+        $allProducts = Product::with('category')->where('active', true)->orderBy('created_at', 'desc')->get();
         $newArrivals = Product::with('category')->where('active', true)->where('section', 'new_arrival')->orderBy('created_at', 'desc')->take(6)->get();
         $featuredProducts = Product::with('category')->where('active', true)->where('section', 'featured')->orderBy('created_at', 'desc')->take(6)->get();
         $topRatedProducts = Product::with('category')->where('active', true)->where('section', 'top_rated')->orderBy('created_at', 'desc')->take(6)->get();
 
-        return view('home', compact('categories', 'slides', 'newArrivals', 'featuredProducts', 'topRatedProducts'));
+        return view('home', compact('categories', 'slides', 'allProducts', 'newArrivals', 'featuredProducts', 'topRatedProducts'));
     }
 
     public function index(Request $request)

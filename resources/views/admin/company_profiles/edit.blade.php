@@ -46,6 +46,16 @@
 
         <div class="row g-3 mb-4">
             <div class="col-md-6">
+                <label class="form-label">Dhaka Delivery Charge</label>
+                <input type="number" name="dhaka_delivery_charge" class="form-control" value="{{ old('dhaka_delivery_charge', $profile->dhaka_delivery_charge ?? 50) }}" min="0">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Outside Dhaka Delivery Charge</label>
+                <input type="number" name="outside_dhaka_delivery_charge" class="form-control" value="{{ old('outside_dhaka_delivery_charge', $profile->outside_dhaka_delivery_charge ?? 100) }}" min="0">
+            </div>
+        </div>
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
                 <label class="form-label">Facebook URL</label>
                 <input type="url" name="facebook" class="form-control" value="{{ old('facebook', $profile->facebook) }}">
             </div>

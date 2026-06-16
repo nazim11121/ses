@@ -19,8 +19,154 @@ header {
 }
 
 .product-card img {
-    min-height: 280px;
+    min-height: 360px;
     object-fit: cover;
+}
+
+.all-products-card {
+    min-width: calc(25% - 12px);
+    max-width: calc(25% - 12px);
+    flex: 0 0 calc(25% - 12px);
+}
+
+.carousel-product-img {
+    min-height: unset;
+    height: 140px;
+}
+
+@media (max-width: 1200px) {
+    .all-products-card {
+        min-width: calc(33.333% - 12px);
+        max-width: calc(33.333% - 12px);
+        flex: 0 0 calc(33.333% - 12px);
+    }
+}
+
+@media (max-width: 768px) {
+    .all-products-card {
+        min-width: calc(50% - 12px);
+        max-width: calc(50% - 12px);
+        flex: 0 0 calc(50% - 12px);
+    }
+}
+
+@media (max-width: 576px) {
+    .all-products-card {
+        min-width: calc(80% - 12px);
+        max-width: calc(80% - 12px);
+        flex: 0 0 calc(80% - 12px);
+    }
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    transition: box-shadow .25s ease, background-color .25s ease;
+    background: #ffffff;
+}
+
+.page-scroll-controls {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 1200;
+}
+
+.page-scroll-controls button {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: #0d6efd;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 0.75rem 1.25rem rgba(13, 110, 253, 0.18);
+    transition: transform .2s ease, background .2s ease;
+}
+
+.page-scroll-controls button:hover {
+    background: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+.page-scroll-controls button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 576px) {
+    .page-scroll-controls {
+        right: 0.75rem;
+        bottom: 0.75rem;
+    }
+}
+
+.admin-menu-toggle {
+    border-radius: 0.5rem;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.admin-menu-bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #212529;
+    margin: 3px 0;
+    border-radius: 1px;
+}
+
+.admin-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    z-index: 1050;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform .25s ease-in-out;
+}
+
+.admin-sidebar.show-mobile {
+    display: block;
+    transform: translateX(0);
+}
+
+.admin-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1040;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+}
+
+.admin-sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+@media (min-width: 992px) {
+    .admin-sidebar {
+        display: block;
+        position: static;
+        transform: none;
+        width: 250px;
+        z-index: auto;
+    }
+    .admin-sidebar-overlay {
+        display: none !important;
+    }
 }
 
 footer {

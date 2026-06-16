@@ -70,6 +70,31 @@
 </div>
 
 <div class="row gy-4 mb-5">
+    <div class="col-12">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h3 class="fw-bold">All Products</h3>
+                <p class="text-muted mb-0">Swipe through all available sarees in a compact moveable carousel.</p>
+            </div>
+            <a href="{{ route('products.index') }}" class="btn btn-outline-primary">View Full Shop</a>
+        </div>
+        <div class="d-flex all-products-carousel align-items-stretch" style="gap: 12px; overflow-x: auto; padding-bottom: 12px;">
+            @foreach($allProducts as $product)
+                <div class="card product-card all-products-card shadow-sm" style="direction: ltr;">
+                    <img src="{{ $product->image_url }}" class="card-img-top carousel-product-img" alt="{{ $product->name }}">
+                    <div class="card-body d-flex flex-column py-3">
+                        <span class="badge bg-primary mb-2" style="font-size: .78rem;">{{ $product->category ? $product->category->name : 'Saree' }}</span>
+                        <h6 class="card-title mb-2" style="font-size: .9rem; line-height: 1.15;">{{ $product->name }}</h6>
+                        <p class="text-muted small mb-3" style="font-size: .85rem;">₹{{ number_format($product->price, 2) }}</p>
+                        <a href="{{ route('product.show', $product->slug) }}" class="btn btn-outline-primary btn-sm mt-auto">Details</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
+<div class="row gy-4 mb-5">
     <div class="col-12 d-flex align-items-center justify-content-between mb-4">
         <div>
             <h3 class="fw-bold">New Arrival</h3>
@@ -191,4 +216,42 @@
         </div>
     </div>
 </div>
+
+<div class="page-scroll-controls">
+    <button id="scrollToTopBtn" type="button" title="Scroll to top">↑</button>
+    <button id="scrollToBottomBtn" type="button" title="Scroll to bottom">↓</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const topButton = document.getElementById('scrollToTopBtn');
+        const bottomButton = document.getElementById('scrollToBottomBtn');
+        const pageHeader = document.querySelector('.site-header');
+
+        function updateButtons() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            topButton.disabled = scrollY < 150;
+        }
+
+        window.addEventListener('scroll', function () {
+            updateButtons();
+            if (!pageHeader) return;
+            if (window.scrollY > 50) {
+                pageHeader.classList.add('shadow-sm');
+            } else {
+                pageHeader.classList.remove('shadow-sm');
+            }
+        });
+
+        topButton.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        bottomButton.addEventListener('click', function () {
+            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+        });
+
+        updateButtons();
+    });
+</script>
 @endsection

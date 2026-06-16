@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyProfile;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -25,9 +26,12 @@ class CheckoutController extends Controller
             return redirect()->route('home')->with('info', 'Your cart is empty. Add a saree to checkout.');
         }
 
+        $companyProfile = CompanyProfile::where('active', true)->first();
+        $dhakaCharge = $companyProfile ? $companyProfile->dhaka_delivery_charge : 50;
+        $outsideCharge = $companyProfile ? $companyProfile->outside_dhaka_delivery_charge : 100;
         $total = $items->sum('subtotal');
 
-        return view('checkout.index', compact('items', 'total'));
+        return view('checkout.index', compact('items', 'total', 'dhakaCharge', 'outsideCharge'));
     }
 
     public function placeOrder(Request $request)
@@ -37,6 +41,7 @@ class CheckoutController extends Controller
             'customer_email' => 'required|email|max:255',
             'customer_phone' => 'required|string|max:30',
             'shipping_address' => 'required|string',
+            'delivery_zone' => 'required|in:dhaka,outside',
             'payment_method' => 'required|in:Cash on Delivery,bKash',
         ]);
 
@@ -53,13 +58,18 @@ class CheckoutController extends Controller
             $total += $product->price * $quantity;
         }
 
+        $companyProfile = CompanyProfile::where('active', true)->first();
+        $dhakaCharge = $companyProfile ? $companyProfile->dhaka_delivery_charge : 50;
+        $outsideCharge = $companyProfile ? $companyProfile->outside_dhaka_delivery_charge : 100;
+        $shippingCharge = $request->delivery_zone === 'outside' ? $outsideCharge : $dhakaCharge;
+
         $order = Order::create([
             'customer_name' => $request->customer_name,
             'customer_email' => $request->customer_email,
             'customer_phone' => $request->customer_phone,
             'shipping_address' => $request->shipping_address,
             'payment_method' => $request->payment_method,
-            'total_amount' => $total,
+            'total_amount' => $total + $shippingCharge,
             'status' => 'Pending',
         ]);
 

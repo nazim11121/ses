@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="d-flex min-vh-100 bg-light">
-    <aside class="bg-white border-end p-4" style="width: 250px;">
+    <aside id="adminSidebar" class="admin-sidebar bg-white border-end p-4">
         <h4 class="fw-bold mb-4">Admin</h4>
         <ul class="nav nav-pills flex-column gap-2">
             <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
@@ -26,7 +26,12 @@
 
     <div class="flex-fill">
         <header class="bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
-            <div>
+            <div class="d-flex align-items-center gap-2">
+                <button id="adminMenuToggle" class="btn btn-outline-secondary d-lg-none p-2 admin-menu-toggle" type="button" aria-label="Toggle menu">
+                    <span class="admin-menu-bar"></span>
+                    <span class="admin-menu-bar"></span>
+                    <span class="admin-menu-bar"></span>
+                </button>
                 <h2 class="h4 mb-0">@yield('page-heading', 'Admin Panel')</h2>
             </div>
             @auth
@@ -51,6 +56,7 @@
                 </div>
             @endauth
         </header>
+        <div id="adminSidebarOverlay" class="admin-sidebar-overlay d-lg-none"></div>
 
         <main class="p-4">
             @if(session('success'))
@@ -77,6 +83,24 @@
             order: [[0, 'desc']],
             responsive: true,
             pageLength: 10,
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('adminMenuToggle');
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('adminSidebarOverlay');
+
+            function closeSidebar() {
+                sidebar.classList.remove('show-mobile');
+                overlay.classList.remove('show');
+            }
+
+            toggle?.addEventListener('click', function () {
+                sidebar.classList.toggle('show-mobile');
+                overlay.classList.toggle('show');
+            });
+
+            overlay?.addEventListener('click', closeSidebar);
         });
     });
 </script>

@@ -31,7 +31,9 @@ class CompanyProfileController extends Controller
             'description' => 'nullable|string',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
-            'active' => 'nullable|boolean',
+            'dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'outside_dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'active' => 'nullable',
         ]);
 
         CompanyProfile::create(array_merge($request->only([
@@ -44,6 +46,8 @@ class CompanyProfileController extends Controller
             'description',
             'facebook',
             'instagram',
+            'dhaka_delivery_charge',
+            'outside_dhaka_delivery_charge',
         ]), ['active' => $request->has('active')]));
 
         return redirect()->route('admin.company-profiles.index')->with('success', 'Company profile created successfully.');
@@ -69,7 +73,9 @@ class CompanyProfileController extends Controller
             'description' => 'nullable|string',
             'facebook' => 'nullable|url|max:255',
             'instagram' => 'nullable|url|max:255',
-            'active' => 'nullable|boolean',
+            'dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'outside_dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'active' => 'nullable',
         ]);
 
         $profile->update(array_merge($request->only([
@@ -82,6 +88,8 @@ class CompanyProfileController extends Controller
             'description',
             'facebook',
             'instagram',
+            'dhaka_delivery_charge',
+            'outside_dhaka_delivery_charge',
         ]), ['active' => $request->has('active')]));
 
         return redirect()->route('admin.company-profiles.index')->with('success', 'Company profile updated successfully.');

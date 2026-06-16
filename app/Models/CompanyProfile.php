@@ -20,5 +20,7 @@ class CompanyProfile extends Model
         'facebook',
         'instagram',
         'active',
+        'dhaka_delivery_charge',
+        'outside_dhaka_delivery_charge',
     ];
 }
