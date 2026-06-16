@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 15, 2026 at 06:35 PM
+-- Generation Time: Jun 16, 2026 at 06:27 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.3.6
 
@@ -47,6 +47,43 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `created_at`, `up
 (1, 'Silk', 'silk', 'Rich silk sarees for weddings and celebrations.', '2026-06-15 12:23:17', '2026-06-15 12:23:17'),
 (2, 'Georgette', 'georgette', 'Lightweight georgette sarees with elegant designs.', '2026-06-15 12:23:17', '2026-06-15 12:23:17'),
 (3, 'Chiffon', 'chiffon', 'Soft chiffon sarees that drape gracefully.', '2026-06-15 12:23:17', '2026-06-15 12:23:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company_profiles`
+--
+
+DROP TABLE IF EXISTS `company_profiles`;
+CREATE TABLE IF NOT EXISTS `company_profiles` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_logo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `favicon_icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mobile_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `website` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tagline` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `facebook` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `instagram` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `dhaka_delivery_charge` int NOT NULL DEFAULT '50',
+  `outside_dhaka_delivery_charge` int NOT NULL DEFAULT '100',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `company_profiles`
+--
+
+INSERT INTO `company_profiles` (`id`, `name`, `owner_name`, `company_logo`, `favicon_icon`, `email`, `phone`, `mobile_number`, `address`, `website`, `tagline`, `description`, `facebook`, `instagram`, `active`, `dhaka_delivery_charge`, `outside_dhaka_delivery_charge`, `created_at`, `updated_at`) VALUES
+(1, 'Saree Bazar', NULL, NULL, NULL, 'sareebazar@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 50, 100, '2026-06-16 11:57:40', '2026-06-16 11:57:40');
 
 -- --------------------------------------------------------
 
@@ -137,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -156,7 +193,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (47, '2026_06_15_155722_create_contact_messages_table', 1),
 (48, '2026_06_16_000001_add_section_to_products_table', 1),
 (49, '2026_06_16_000002_create_pages_table', 1),
-(50, '2026_06_16_000003_create_feedback_table', 1);
+(50, '2026_06_16_000003_create_feedback_table', 1),
+(51, '2026_06_16_000004_create_company_profiles_table', 2),
+(52, '2026_06_16_000005_add_delivery_charges_to_company_profiles_table', 3),
+(53, '2026_06_17_000006_add_branding_fields_to_company_profiles_table', 4),
+(54, '2026_06_17_000007_add_mobile_number_to_company_profiles_table', 4);
 
 -- --------------------------------------------------------
 
