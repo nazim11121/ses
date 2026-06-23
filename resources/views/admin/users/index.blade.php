@@ -6,7 +6,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Users</h3>
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a>
+    @if(auth()->user()->hasPermission('users.create'))
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add User</a>
+    @endif
 </div>
 
 @if(session('error'))
@@ -47,8 +49,10 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
-                            @if($user->id !== auth()->id())
+                            @if(auth()->user()->hasPermission('users.edit'))
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                            @endif
+                            @if(auth()->user()->hasPermission('users.delete') && $user->id !== auth()->id())
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline"
                                       onsubmit="return confirm('Delete this user?')">
                                     @csrf

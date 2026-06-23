@@ -6,7 +6,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Permissions</h3>
-    <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary">Add Permission</a>
+    @if(auth()->user()->hasPermission('permissions.create'))
+        <a href="{{ route('admin.permissions.create') }}" class="btn btn-primary">Add Permission</a>
+    @endif
 </div>
 
 <div class="card border-0 shadow-sm">
@@ -33,13 +35,17 @@
                         <td>{{ $permission->description ?: '—' }}</td>
                         <td><span class="badge bg-secondary">{{ $permission->roles_count }}</span></td>
                         <td class="text-end">
-                            <a href="{{ route('admin.permissions.edit', $permission->id) }}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
-                            <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" class="d-inline"
-                                  onsubmit="return confirm('Delete this permission?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('permissions.edit'))
+                                <a href="{{ route('admin.permissions.edit', $permission->id) }}" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                            @endif
+                            @if(auth()->user()->hasPermission('permissions.delete'))
+                                <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Delete this permission?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

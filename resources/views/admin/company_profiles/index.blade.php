@@ -6,7 +6,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Company Profile</h3>
-    @if(!$profile)
+    @if(!$profile && auth()->user()->hasPermission('company-profile.create'))
         <a href="{{ route('admin.company-profiles.create') }}" class="btn btn-primary">Create Company Profile</a>
     @endif
 </div>
@@ -30,7 +30,9 @@
                         <td>{{ $profile->dhaka_delivery_charge ?? 50 }} / {{ $profile->outside_dhaka_delivery_charge ?? 100 }}</td>
                         <td>{{ $profile->active ? 'Active' : 'Inactive' }}</td>
                         <td class="text-end">
-                            <a href="{{ route('admin.company-profiles.edit', $profile->id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            @if(auth()->user()->hasPermission('company-profile.edit'))
+                                <a href="{{ route('admin.company-profiles.edit', $profile->id) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                            @endif
                         </td>
                     </tr>
                 @else

@@ -6,7 +6,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Customer Feedback</h3>
-    <a href="{{ route('admin.feedbacks.create') }}" class="btn btn-primary">Add Feedback</a>
+    @if(auth()->user()->hasPermission('feedback.create'))
+        <a href="{{ route('admin.feedbacks.create') }}" class="btn btn-primary">Add Feedback</a>
+    @endif
 </div>
 <div class="card border-0 shadow-sm">
     <div class="table-responsive">
@@ -30,12 +32,17 @@
                         <td>{{ $feedback->position }}</td>
                         <td>{{ $feedback->active ? 'Active' : 'Inactive' }}</td>
                         <td class="text-end">
-                            <a href="{{ route('admin.feedbacks.edit', $feedback->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                            <form action="{{ route('admin.feedbacks.destroy', $feedback->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('feedback.edit'))
+                                <a href="{{ route('admin.feedbacks.edit', $feedback->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+                            @endif
+                            @if(auth()->user()->hasPermission('feedback.delete'))
+                                <form action="{{ route('admin.feedbacks.destroy', $feedback->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Delete this feedback?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

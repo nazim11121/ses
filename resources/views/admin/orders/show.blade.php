@@ -46,6 +46,7 @@
             </tbody>
         </table>
     </div>
+    @if(auth()->user()->hasPermission('orders.update-status'))
     <form action="{{ route('admin.orders.update', $order->id) }}" method="POST" class="row g-3 align-items-end">
         @csrf
         @method('PUT')
@@ -63,5 +64,10 @@
             <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-secondary">Back to Orders</a>
         </div>
     </form>
+    @else
+    <div class="text-end">
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-secondary">Back to Orders</a>
+    </div>
+    @endif
 </div>
 @endsection

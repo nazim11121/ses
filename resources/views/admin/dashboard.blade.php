@@ -32,9 +32,15 @@
         @else
             <div class="list-group">
                 @foreach($latestOrders as $order)
-                    <a href="{{ route('admin.orders.show', $order->id) }}" class="list-group-item list-group-item-action">
-                        Order #{{ $order->id }} — {{ $order->customer_name }} <span class="text-muted">({{ $order->status }})</span>
-                    </a>
+                    @if(auth()->user()->hasPermission('orders.view-detail'))
+                        <a href="{{ route('admin.orders.show', $order->id) }}" class="list-group-item list-group-item-action">
+                            Order #{{ $order->id }} — {{ $order->customer_name }} <span class="text-muted">({{ $order->status }})</span>
+                        </a>
+                    @else
+                        <div class="list-group-item">
+                            Order #{{ $order->id }} — {{ $order->customer_name }} <span class="text-muted">({{ $order->status }})</span>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         @endif

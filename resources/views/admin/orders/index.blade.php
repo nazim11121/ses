@@ -24,7 +24,9 @@
                         <td>₹{{ number_format($order->total_amount, 2) }}</td>
                         <td>{{ $order->status }}</td>
                         <td class="text-end">
-                            <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                            @if(auth()->user()->hasPermission('orders.view-detail'))
+                                <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                            @endif
                         </td>
                     </tr>
                 @empty

@@ -26,11 +26,14 @@
                         <td>{{ $message->subject }}</td>
                         <td>{{ \Illuminate\Support\Str::limit($message->message, 80) }}</td>
                         <td class="text-end">
-                            <form action="{{ route('admin.contacts.destroy', $message->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('contacts.delete'))
+                                <form action="{{ route('admin.contacts.destroy', $message->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Delete this message?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

@@ -6,7 +6,9 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">Slider Items</h3>
-    <a href="{{ route('admin.sliders.create') }}" class="btn btn-primary">Add Slide</a>
+    @if(auth()->user()->hasPermission('sliders.create'))
+        <a href="{{ route('admin.sliders.create') }}" class="btn btn-primary">Add Slide</a>
+    @endif
 </div>
 <div class="card border-0 shadow-sm">
     <div class="table-responsive">
@@ -32,12 +34,17 @@
                         <td>{{ $slide->position }}</td>
                         <td>{{ $slide->active ? 'Active' : 'Inactive' }}</td>
                         <td class="text-end">
-                            <a href="{{ route('admin.sliders.edit', $slide->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                            <form action="{{ route('admin.sliders.destroy', $slide->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            @if(auth()->user()->hasPermission('sliders.edit'))
+                                <a href="{{ route('admin.sliders.edit', $slide->id) }}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+                            @endif
+                            @if(auth()->user()->hasPermission('sliders.delete'))
+                                <form action="{{ route('admin.sliders.destroy', $slide->id) }}" method="POST" class="d-inline"
+                                      onsubmit="return confirm('Delete this slide?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty
