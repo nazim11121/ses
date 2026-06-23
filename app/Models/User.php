@@ -34,6 +34,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
     public function hasRole(string $slug): bool
     {
         static $cache = [];
@@ -44,20 +49,18 @@ class User extends Authenticatable
         return $cache[$key];
     }
 
-    /**
-     * Returns all permission slugs for this user (cached per request).
-     */
     public function allPermissionSlugs(): array
     {
         static $cache = [];
         if (!isset($cache[$this->id])) {
-            $cache[$this->id] = $this->roles()
+            $fromRoles = $this->roles()
                 ->with('permissions')
                 ->get()
-                ->flatMap(function ($role) { return $role->permissions->pluck('slug'); })
-                ->unique()
-                ->values()
-                ->toArray();
+                ->flatMap(fn($role) => $role->permissions->pluck('slug'));
+
+            $direct = $this->permissions()->pluck('slug');
+
+            $cache[$this->id] = $fromRoles->concat($direct)->unique()->values()->toArray();
         }
         return $cache[$this->id];
     }
