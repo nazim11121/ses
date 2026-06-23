@@ -6,6 +6,7 @@ use App\Models\CompanyProfile;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Services\CourierService;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
@@ -72,6 +73,20 @@ class CheckoutController extends Controller
             'total_amount' => $total + $shippingCharge,
             'status' => 'Pending',
         ]);
+
+        $courierService = app(CourierService::class);
+        $courierProvider = $request->input('courier_provider', config('couriers.default', 'mock'));
+        $courierService->dispatch($order, [
+            'delivery_zone' => $request->delivery_zone,
+            'shipping_address' => $request->shipping_address,
+            'payment_method' => $request->payment_method,
+            'items' => $products->map(function ($product) use ($cart) {
+                return [
+                    'product_id' => $product->id,
+                    'quantity' => $cart[$product->id] ?? 0,
+                ];
+            })->values()->all(),
+        ], $courierProvider);
 
         foreach ($products as $product) {
             $quantity = $cart[$product->id] ?? 0;

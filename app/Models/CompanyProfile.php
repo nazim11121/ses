@@ -26,5 +26,11 @@ class CompanyProfile extends Model
         'active',
         'dhaka_delivery_charge',
         'outside_dhaka_delivery_charge',
+        'default_courier_provider',
+        'courier_settings',
+    ];
+
+    protected $casts = [
+        'courier_settings' => 'array',
     ];
 }

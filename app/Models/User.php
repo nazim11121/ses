@@ -12,33 +12,58 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'active',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'active' => 'boolean',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole(string $slug): bool
+    {
+        static $cache = [];
+        $key = $this->id . ':' . $slug;
+        if (!isset($cache[$key])) {
+            $cache[$key] = $this->roles()->where('slug', $slug)->exists();
+        }
+        return $cache[$key];
+    }
+
+    /**
+     * Returns all permission slugs for this user (cached per request).
+     */
+    public function allPermissionSlugs(): array
+    {
+        static $cache = [];
+        if (!isset($cache[$this->id])) {
+            $cache[$this->id] = $this->roles()
+                ->with('permissions')
+                ->get()
+                ->flatMap(function ($role) { return $role->permissions->pluck('slug'); })
+                ->unique()
+                ->values()
+                ->toArray();
+        }
+        return $cache[$this->id];
+    }
+
+    public function hasPermission(string $slug): bool
+    {
+        return in_array($slug, $this->allPermissionSlugs());
+    }
 }

@@ -4,11 +4,15 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\CompanyProfileController as AdminCompanyProfileController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\PermissionController as AdminPermissionController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\SliderController as AdminSliderController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -39,7 +43,7 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
 Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
 
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin.permission'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', AdminProductController::class)->except(['show']);
     Route::resource('categories', AdminCategoryController::class)->except(['show']);
@@ -52,5 +56,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::put('profile', [AdminProfileController::class, 'update'])->name('profile.update');
     Route::get('profile/password', [AdminProfileController::class, 'editPassword'])->name('profile.password.edit');
     Route::put('profile/password', [AdminProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::resource('feedbacks', AdminFeedbackController::class)->except(['show']);
     Route::resource('company-profiles', AdminCompanyProfileController::class)->except(['show', 'destroy']);
+
+    // User management
+    Route::resource('users', AdminUserController::class)->except(['show']);
+    Route::resource('roles', AdminRoleController::class)->except(['show']);
+    Route::resource('permissions', AdminPermissionController::class)->except(['show']);
 });

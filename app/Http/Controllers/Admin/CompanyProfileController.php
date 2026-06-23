@@ -46,6 +46,8 @@ class CompanyProfileController extends Controller
             'instagram' => 'nullable|url|max:255',
             'dhaka_delivery_charge' => 'nullable|integer|min:0',
             'outside_dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'default_courier_provider' => 'nullable|string|max:100',
+            'courier_settings' => 'nullable|array',
             'active' => 'nullable',
         ]);
 
@@ -63,7 +65,10 @@ class CompanyProfileController extends Controller
             'instagram',
             'dhaka_delivery_charge',
             'outside_dhaka_delivery_charge',
+            'default_courier_provider',
         ]);
+
+        $data['courier_settings'] = $request->input('courier_settings', []);
 
         if ($request->hasFile('company_logo')) {
             $data['company_logo'] = $request->file('company_logo')->store('company_profiles', 'public');
@@ -104,6 +109,8 @@ class CompanyProfileController extends Controller
             'instagram' => 'nullable|url|max:255',
             'dhaka_delivery_charge' => 'nullable|integer|min:0',
             'outside_dhaka_delivery_charge' => 'nullable|integer|min:0',
+            'default_courier_provider' => 'nullable|string|max:100',
+            'courier_settings' => 'nullable|array',
             'active' => 'nullable',
         ]);
 
@@ -121,7 +128,10 @@ class CompanyProfileController extends Controller
             'instagram',
             'dhaka_delivery_charge',
             'outside_dhaka_delivery_charge',
+            'default_courier_provider',
         ]);
+
+        $data['courier_settings'] = $request->input('courier_settings', []);
 
         if ($request->hasFile('company_logo')) {
             $data['company_logo'] = $request->file('company_logo')->store('company_profiles', 'public');

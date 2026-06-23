@@ -93,6 +93,23 @@
             </div>
         </div>
 
+        <div class="card border-0 bg-light p-3 mb-4">
+            <h5 class="mb-3">Courier Settings</h5>
+            <div class="mb-3">
+                <label class="form-label">Default Courier Provider</label>
+                <select name="default_courier_provider" class="form-select">
+                    <option value="">Use system default</option>
+                    <option value="mock" {{ old('default_courier_provider', $profile->default_courier_provider) == 'mock' ? 'selected' : '' }}>Mock</option>
+                    <option value="manual" {{ old('default_courier_provider', $profile->default_courier_provider) == 'manual' ? 'selected' : '' }}>Manual</option>
+                </select>
+            </div>
+            <div class="mb-0">
+                <label class="form-label">Courier Settings (JSON)</label>
+                <textarea name="courier_settings[api_key]" rows="2" class="form-control" placeholder="Optional provider credentials">{{ old('courier_settings.api_key', data_get($profile->courier_settings, 'api_key', '')) }}</textarea>
+                <small class="text-muted">You can store provider-specific values here for future integrations.</small>
+            </div>
+        </div>
+
         <div class="form-check mb-4">
             <input class="form-check-input" type="checkbox" name="active" id="active"{{ old('active', $profile->active) ? ' checked' : '' }}>
             <label class="form-check-label" for="active">Active</label>

@@ -18,6 +18,14 @@ class Order extends Model
         'payment_method',
         'total_amount',
         'status',
+        'courier_provider',
+        'courier_tracking_number',
+        'courier_status',
+        'courier_payload',
+    ];
+
+    protected $casts = [
+        'courier_payload' => 'array',
     ];
 
     public function items()

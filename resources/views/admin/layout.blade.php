@@ -13,13 +13,113 @@
 <div class="d-flex min-vh-100 bg-light">
     <aside id="adminSidebar" class="admin-sidebar bg-white border-end p-4">
         <h4 class="fw-bold mb-4">Admin</h4>
+        @php
+            $u = auth()->user();
+            $userMgmtActive = request()->routeIs('admin.users.*')
+                           || request()->routeIs('admin.roles.*')
+                           || request()->routeIs('admin.permissions.*');
+        @endphp
         <ul class="nav nav-pills flex-column gap-2">
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}" href="{{ route('admin.products.index') }}">Products</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}" href="{{ route('admin.categories.index') }}">Categories</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}" href="{{ route('admin.sliders.index') }}">Slider</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}" href="{{ route('admin.company-profiles.index') }}">Company Profile</a></li>
-            <li class="nav-item"><a class="nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}" href="{{ route('admin.pages.edit') }}">About Page</a></li>
+
+            @if($u->hasPermission('dashboard.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}"
+                   href="{{ route('admin.dashboard') }}">Dashboard</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('products.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}"
+                   href="{{ route('admin.products.index') }}">Products</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('categories.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}"
+                   href="{{ route('admin.categories.index') }}">Categories</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('sliders.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}"
+                   href="{{ route('admin.sliders.index') }}">Slider</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('orders.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}"
+                   href="{{ route('admin.orders.index') }}">Orders</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('contacts.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}"
+                   href="{{ route('admin.contacts.index') }}">Contacts</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('feedback.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.feedbacks.*') ? ' active' : '' }}"
+                   href="{{ route('admin.feedbacks.index') }}">Feedback</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('company-profile.view'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}"
+                   href="{{ route('admin.company-profiles.index') }}">Company Profile</a>
+            </li>
+            @endif
+
+            @if($u->hasPermission('pages.edit'))
+            <li class="nav-item">
+                <a class="nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}"
+                   href="{{ route('admin.pages.edit') }}">About Page</a>
+            </li>
+            @endif
+
+            {{-- User Management (show group if user has at least one sub-permission) --}}
+            @if($u->hasPermission('users.view') || $u->hasPermission('roles.view') || $u->hasPermission('permissions.view'))
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-between align-items-center{{ $userMgmtActive ? ' active' : '' }}"
+                   href="#userMgmtMenu" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ $userMgmtActive ? 'true' : 'false' }}">
+                    <span>User Management</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </a>
+                <div class="collapse{{ $userMgmtActive ? ' show' : '' }}" id="userMgmtMenu">
+                    <ul class="nav flex-column ms-3 mt-1 gap-1">
+                        @if($u->hasPermission('users.view'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.users.*') ? ' active' : '' }}"
+                               href="{{ route('admin.users.index') }}">Users</a>
+                        </li>
+                        @endif
+                        @if($u->hasPermission('roles.view'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.roles.*') ? ' active' : '' }}"
+                               href="{{ route('admin.roles.index') }}">Roles</a>
+                        </li>
+                        @endif
+                        @if($u->hasPermission('permissions.view'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.permissions.*') ? ' active' : '' }}"
+                               href="{{ route('admin.permissions.index') }}">Permissions</a>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+            @endif
+
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">View Shop</a></li>
         </ul>
     </aside>
