@@ -538,4 +538,132 @@ a { text-decoration: none; }
     .ap-content { padding: 1rem; }
     .ap-header  { padding: 0 1rem; }
     .ap-avatar-name { display: none; }
+    .ap-switcher-group { gap: .35rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER SWITCHER BUTTONS
+   ═══════════════════════════════════════════════════════════ */
+.ap-switcher-group {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+}
+
+.ap-icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: none;
+    border: 1px solid var(--ap-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--ap-text-muted);
+    transition: background var(--ap-tr), color var(--ap-tr), border-color var(--ap-tr);
+    flex-shrink: 0;
+}
+.ap-icon-btn:hover { background: var(--ap-bg); color: var(--ap-text); }
+
+.ap-lang-btn {
+    height: 36px;
+    min-width: 52px;
+    padding: 0 .8rem;
+    border-radius: 50px;
+    background: none;
+    border: 1px solid var(--ap-border);
+    font-size: .73rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    color: var(--ap-text-muted);
+    cursor: pointer;
+    transition: all var(--ap-tr);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+.ap-lang-btn:hover,
+.ap-lang-btn.bn-active {
+    background: var(--ap-accent);
+    color: #fff;
+    border-color: var(--ap-accent);
+}
+
+/* Theme icon swap */
+.ap-sun  { display: none;  }
+.ap-moon { display: block; }
+html[data-theme="dark"] .ap-sun  { display: block; }
+html[data-theme="dark"] .ap-moon { display: none;  }
+
+/* ═══════════════════════════════════════════════════════════
+   DARK MODE  (html[data-theme="dark"])
+   ═══════════════════════════════════════════════════════════ */
+html[data-theme="dark"] {
+    --ap-header-bg:  #1e293b;
+    --ap-bg:         #0f172a;
+    --ap-card:       #1e293b;
+    --ap-text:       #f1f5f9;
+    --ap-text-muted: #94a3b8;
+    --ap-border:     #334155;
+    --ap-shadow-sm:  0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+    --ap-shadow:     0 4px 16px rgba(0,0,0,.45);
+}
+
+html[data-theme="dark"] body { background: var(--ap-bg); color: var(--ap-text); }
+
+html[data-theme="dark"] .ap-table th {
+    background: #1a2740;
+    color: #94a3b8;
+}
+html[data-theme="dark"] .ap-table tbody tr:hover { background: #1a2740; }
+
+html[data-theme="dark"] .dropdown-menu,
+html[data-theme="dark"] .ap-dropdown {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+}
+html[data-theme="dark"] .dropdown-item { color: #f1f5f9 !important; }
+html[data-theme="dark"] .dropdown-item:hover { background: #263347 !important; }
+html[data-theme="dark"] .dropdown-divider { border-color: #334155 !important; }
+
+html[data-theme="dark"] .ap-btn-outline {
+    background: #263347;
+    color: var(--ap-text);
+    border-color: #334155;
+}
+html[data-theme="dark"] .ap-btn-outline:hover {
+    background: #2d3e56;
+    border-color: #475569;
+    color: var(--ap-text);
+}
+
+html[data-theme="dark"] .ap-quick-btn {
+    background: #263347;
+    border-color: #334155;
+    color: var(--ap-text);
+}
+html[data-theme="dark"] .ap-quick-btn:hover {
+    background: #2d3e56;
+    border-color: #c4b5fd;
+    color: var(--ap-accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,.35);
+}
+
+html[data-theme="dark"] .ap-toggle-btn:hover,
+html[data-theme="dark"] .ap-icon-btn:hover   { background: #263347; color: var(--ap-text); }
+html[data-theme="dark"] .ap-avatar-btn:hover  { background: #263347; border-color: #475569; }
+
+html[data-theme="dark"] .ap-alert-success { background: #14532d44; color: #86efac; border-color: #166534; }
+html[data-theme="dark"] .ap-alert-error   { background: #7f1d1d44; color: #fca5a5; border-color: #991b1b; }
+
+html[data-theme="dark"] .ap-page-sub { color: #94a3b8; }
+
+/* Stat cards in dark */
+html[data-theme="dark"] .ap-stat { background: var(--ap-card); border-color: var(--ap-border); }
+html[data-theme="dark"] .ap-stat-purple .ap-stat-icon { background: rgba(124,58,237,.2); }
+html[data-theme="dark"] .ap-stat-blue   .ap-stat-icon { background: rgba(37,99,235,.2);  }
+html[data-theme="dark"] .ap-stat-green  .ap-stat-icon { background: rgba(5,150,105,.2);  }
+html[data-theme="dark"] .ap-stat-orange .ap-stat-icon { background: rgba(217,119,6,.2);  }
+
+/* Badges stay same in dark — they're self-contained */
