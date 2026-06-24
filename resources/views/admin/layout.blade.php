@@ -291,8 +291,24 @@ $(document).ready(function () {
     function openSb()  { sidebar.classList.add('open'); overlay.classList.add('show'); document.body.style.overflow='hidden'; }
     function closeSb() { sidebar.classList.remove('open'); overlay.classList.remove('show'); document.body.style.overflow=''; }
 
-    if (toggle)  toggle.addEventListener('click', function(){ sidebar.classList.contains('open') ? closeSb() : openSb(); });
+    if (toggle) {
+        toggle.addEventListener('click', function () {
+            if (window.innerWidth >= 992) {
+                // Desktop: slide sidebar in/out, shift main content
+                var collapsed = document.body.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('ap_sb_collapsed', collapsed ? '1' : '0');
+            } else {
+                // Mobile: overlay drawer
+                sidebar.classList.contains('open') ? closeSb() : openSb();
+            }
+        });
+    }
     if (overlay) overlay.addEventListener('click', closeSb);
+
+    // Restore desktop collapsed state across page loads
+    if (window.innerWidth >= 992 && localStorage.getItem('ap_sb_collapsed') === '1') {
+        document.body.classList.add('sidebar-collapsed');
+    }
 
     /* ── Sub-menu toggles ── */
     document.querySelectorAll('.ap-nav-group-toggle').forEach(function(btn){

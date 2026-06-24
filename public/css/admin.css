@@ -197,7 +197,12 @@ a { text-decoration: none; }
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    transition: margin-left .28s cubic-bezier(.4,0,.2,1);
 }
+
+/* Desktop sidebar collapse */
+body.sidebar-collapsed .ap-sidebar { transform: translateX(calc(-1 * var(--ap-sidebar-w))); }
+body.sidebar-collapsed .ap-main   { margin-left: 0; }
 
 /* ── Header ── */
 .ap-header {
