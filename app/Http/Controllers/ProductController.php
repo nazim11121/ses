@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\Product;
 use App\Models\Slider;
 use Illuminate\Http\Request;
@@ -14,11 +15,12 @@ class ProductController extends Controller
         $categories = Category::orderBy('name')->get();
         $slides = Slider::where('active', true)->orderBy('position')->get();
         $allProducts = Product::with('category')->where('active', true)->orderBy('created_at', 'desc')->get();
-        $newArrivals = Product::with('category')->where('active', true)->where('section', 'new_arrival')->orderBy('created_at', 'desc')->take(6)->get();
-        $featuredProducts = Product::with('category')->where('active', true)->where('section', 'featured')->orderBy('created_at', 'desc')->take(6)->get();
-        $topRatedProducts = Product::with('category')->where('active', true)->where('section', 'top_rated')->orderBy('created_at', 'desc')->take(6)->get();
+        $newArrivals = Product::with('category')->where('active', true)->where('section', 'new_arrival')->orderBy('created_at', 'desc')->take(8)->get();
+        $featuredProducts = Product::with('category')->where('active', true)->where('section', 'featured')->orderBy('created_at', 'desc')->take(8)->get();
+        $topRatedProducts = Product::with('category')->where('active', true)->where('section', 'top_rated')->orderBy('created_at', 'desc')->take(8)->get();
+        $feedbacks = Feedback::orderBy('position')->take(3)->get();
 
-        return view('home', compact('categories', 'slides', 'allProducts', 'newArrivals', 'featuredProducts', 'topRatedProducts'));
+        return view('home', compact('categories', 'slides', 'allProducts', 'newArrivals', 'featuredProducts', 'topRatedProducts', 'feedbacks'));
     }
 
     public function index(Request $request)
