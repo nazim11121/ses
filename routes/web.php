@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\NotificationController as AdminNotificationController;
 use App\Http\Controllers\Admin\CompanyProfileController as AdminCompanyProfileController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -63,4 +64,32 @@ Route::middleware(['auth', 'admin.permission'])->prefix('admin')->name('admin.')
     Route::resource('users', AdminUserController::class)->except(['show']);
     Route::resource('roles', AdminRoleController::class)->except(['show']);
     Route::resource('permissions', AdminPermissionController::class)->except(['show']);
+
+    // Notifications
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        // Settings
+        Route::get('settings', [AdminNotificationController::class, 'settingsIndex'])->name('settings.index');
+        Route::get('settings/create', [AdminNotificationController::class, 'settingsCreate'])->name('settings.create');
+        Route::post('settings', [AdminNotificationController::class, 'settingsStore'])->name('settings.store');
+        Route::get('settings/{setting}/edit', [AdminNotificationController::class, 'settingsEdit'])->name('settings.edit');
+        Route::put('settings/{setting}', [AdminNotificationController::class, 'settingsUpdate'])->name('settings.update');
+        Route::post('settings/{setting}/activate', [AdminNotificationController::class, 'settingsActivate'])->name('settings.activate');
+        Route::delete('settings/{setting}', [AdminNotificationController::class, 'settingsDestroy'])->name('settings.destroy');
+
+        // Templates
+        Route::get('templates', [AdminNotificationController::class, 'templatesIndex'])->name('templates.index');
+        Route::get('templates/create', [AdminNotificationController::class, 'templatesCreate'])->name('templates.create');
+        Route::post('templates', [AdminNotificationController::class, 'templatesStore'])->name('templates.store');
+        Route::get('templates/{template}/edit', [AdminNotificationController::class, 'templatesEdit'])->name('templates.edit');
+        Route::put('templates/{template}', [AdminNotificationController::class, 'templatesUpdate'])->name('templates.update');
+        Route::delete('templates/{template}', [AdminNotificationController::class, 'templatesDestroy'])->name('templates.destroy');
+
+        // Send
+        Route::get('send', [AdminNotificationController::class, 'sendIndex'])->name('send');
+        Route::post('send', [AdminNotificationController::class, 'sendStore'])->name('send.store');
+
+        // Logs
+        Route::get('logs', [AdminNotificationController::class, 'logsIndex'])->name('logs');
+        Route::delete('logs/{log}', [AdminNotificationController::class, 'logsDestroy'])->name('logs.destroy');
+    });
 });

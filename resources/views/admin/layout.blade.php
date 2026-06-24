@@ -18,6 +18,7 @@
             $userMgmtActive = request()->routeIs('admin.users.*')
                            || request()->routeIs('admin.roles.*')
                            || request()->routeIs('admin.permissions.*');
+            $notifActive = request()->routeIs('admin.notifications.*');
         @endphp
         <ul class="nav nav-pills flex-column gap-2">
 
@@ -113,6 +114,46 @@
                         <li class="nav-item">
                             <a class="nav-link py-1{{ request()->routeIs('admin.permissions.*') ? ' active' : '' }}"
                                href="{{ route('admin.permissions.index') }}">Permissions</a>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
+            @endif
+
+            {{-- Notifications --}}
+            @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
+            <li class="nav-item">
+                <a class="nav-link d-flex justify-content-between align-items-center{{ $notifActive ? ' active' : '' }}"
+                   href="#notifMenu" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ $notifActive ? 'true' : 'false' }}">
+                    <span>Notifications</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </a>
+                <div class="collapse{{ $notifActive ? ' show' : '' }}" id="notifMenu">
+                    <ul class="nav flex-column ms-3 mt-1 gap-1">
+                        @if($u->hasPermission('notifications.manage'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.settings.*') ? ' active' : '' }}"
+                               href="{{ route('admin.notifications.settings.index') }}">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.templates.*') ? ' active' : '' }}"
+                               href="{{ route('admin.notifications.templates.index') }}">Templates</a>
+                        </li>
+                        @endif
+                        @if($u->hasPermission('notifications.send') || $u->hasPermission('notifications.manage'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.send') ? ' active' : '' }}"
+                               href="{{ route('admin.notifications.send') }}">Send</a>
+                        </li>
+                        @endif
+                        @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
+                        <li class="nav-item">
+                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.logs') ? ' active' : '' }}"
+                               href="{{ route('admin.notifications.logs') }}">Logs</a>
                         </li>
                         @endif
                     </ul>
