@@ -3,210 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Panel') - Saree Bazaar</title>
+    <title>@yield('title', 'Admin Panel') — Saree Bazaar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    @yield('head')
 </head>
 <body>
-<div class="d-flex min-vh-100 bg-light">
-    <aside id="adminSidebar" class="admin-sidebar bg-white border-end p-4">
-        <h4 class="fw-bold mb-4">Admin</h4>
-        @php
-            $u = auth()->user();
-            $userMgmtActive = request()->routeIs('admin.users.*')
-                           || request()->routeIs('admin.roles.*')
-                           || request()->routeIs('admin.permissions.*');
-            $notifActive = request()->routeIs('admin.notifications.*');
-        @endphp
-        <ul class="nav nav-pills flex-column gap-2">
 
-            @if($u->hasPermission('dashboard.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}"
-                   href="{{ route('admin.dashboard') }}">Dashboard</a>
-            </li>
-            @endif
+@php
+    $u = auth()->user();
+    $userMgmtActive = request()->routeIs('admin.users.*')
+                   || request()->routeIs('admin.roles.*')
+                   || request()->routeIs('admin.permissions.*');
+    $notifActive = request()->routeIs('admin.notifications.*');
+@endphp
 
-            @if($u->hasPermission('products.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}"
-                   href="{{ route('admin.products.index') }}">Products</a>
-            </li>
-            @endif
+{{-- ══════════════ SIDEBAR ══════════════ --}}
+<aside id="apSidebar" class="ap-sidebar">
 
-            @if($u->hasPermission('categories.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}"
-                   href="{{ route('admin.categories.index') }}">Categories</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('sliders.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}"
-                   href="{{ route('admin.sliders.index') }}">Slider</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('orders.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}"
-                   href="{{ route('admin.orders.index') }}">Orders</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('contacts.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}"
-                   href="{{ route('admin.contacts.index') }}">Contacts</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('feedback.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.feedbacks.*') ? ' active' : '' }}"
-                   href="{{ route('admin.feedbacks.index') }}">Feedback</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('company-profile.view'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}"
-                   href="{{ route('admin.company-profiles.index') }}">Company Profile</a>
-            </li>
-            @endif
-
-            @if($u->hasPermission('pages.edit'))
-            <li class="nav-item">
-                <a class="nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}"
-                   href="{{ route('admin.pages.edit') }}">About Page</a>
-            </li>
-            @endif
-
-            {{-- User Management (show group if user has at least one sub-permission) --}}
-            @if($u->hasPermission('users.view') || $u->hasPermission('roles.view') || $u->hasPermission('permissions.view'))
-            <li class="nav-item">
-                <a class="nav-link d-flex justify-content-between align-items-center{{ $userMgmtActive ? ' active' : '' }}"
-                   href="#userMgmtMenu" data-bs-toggle="collapse" role="button"
-                   aria-expanded="{{ $userMgmtActive ? 'true' : 'false' }}">
-                    <span>User Management</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                </a>
-                <div class="collapse{{ $userMgmtActive ? ' show' : '' }}" id="userMgmtMenu">
-                    <ul class="nav flex-column ms-3 mt-1 gap-1">
-                        @if($u->hasPermission('users.view'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.users.*') ? ' active' : '' }}"
-                               href="{{ route('admin.users.index') }}">Users</a>
-                        </li>
-                        @endif
-                        @if($u->hasPermission('roles.view'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.roles.*') ? ' active' : '' }}"
-                               href="{{ route('admin.roles.index') }}">Roles</a>
-                        </li>
-                        @endif
-                        @if($u->hasPermission('permissions.view'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.permissions.*') ? ' active' : '' }}"
-                               href="{{ route('admin.permissions.index') }}">Permissions</a>
-                        </li>
-                        @endif
-                    </ul>
-                </div>
-            </li>
-            @endif
-
-            {{-- Notifications --}}
-            @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
-            <li class="nav-item">
-                <a class="nav-link d-flex justify-content-between align-items-center{{ $notifActive ? ' active' : '' }}"
-                   href="#notifMenu" data-bs-toggle="collapse" role="button"
-                   aria-expanded="{{ $notifActive ? 'true' : 'false' }}">
-                    <span>Notifications</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                    </svg>
-                </a>
-                <div class="collapse{{ $notifActive ? ' show' : '' }}" id="notifMenu">
-                    <ul class="nav flex-column ms-3 mt-1 gap-1">
-                        @if($u->hasPermission('notifications.manage'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.settings.*') ? ' active' : '' }}"
-                               href="{{ route('admin.notifications.settings.index') }}">Settings</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.templates.*') ? ' active' : '' }}"
-                               href="{{ route('admin.notifications.templates.index') }}">Templates</a>
-                        </li>
-                        @endif
-                        @if($u->hasPermission('notifications.send') || $u->hasPermission('notifications.manage'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.send') ? ' active' : '' }}"
-                               href="{{ route('admin.notifications.send') }}">Send</a>
-                        </li>
-                        @endif
-                        @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
-                        <li class="nav-item">
-                            <a class="nav-link py-1{{ request()->routeIs('admin.notifications.logs') ? ' active' : '' }}"
-                               href="{{ route('admin.notifications.logs') }}">Logs</a>
-                        </li>
-                        @endif
-                    </ul>
-                </div>
-            </li>
-            @endif
-
-            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">View Shop</a></li>
-        </ul>
-    </aside>
-
-    <div class="flex-fill">
-        <header class="bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <button id="adminMenuToggle" class="btn btn-outline-secondary d-lg-none p-2 admin-menu-toggle" type="button" aria-label="Toggle menu">
-                    <span class="admin-menu-bar"></span>
-                    <span class="admin-menu-bar"></span>
-                    <span class="admin-menu-bar"></span>
-                </button>
-                <h2 class="h4 mb-0">@yield('page-heading', 'Admin Panel')</h2>
-            </div>
-            @auth
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="adminProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="rounded-circle bg-secondary text-white d-inline-flex justify-content-center align-items-center me-2" style="width:36px; height:36px; font-size:.95rem;">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </span>
-                        {{ auth()->user()->name }}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminProfileDropdown">
-                        <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}">Profile</a></li>
-                        <li><a class="dropdown-item" href="{{ route('admin.profile.password.edit') }}">Change Password</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST" class="mb-0">
-                                @csrf
-                                <button type="submit" class="dropdown-item text-danger">Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            @endauth
-        </header>
-        <div id="adminSidebarOverlay" class="admin-sidebar-overlay d-lg-none"></div>
-
-        <main class="p-4">
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-            @yield('content')
-        </main>
+    {{-- Brand --}}
+    <div class="ap-brand">
+        <div class="ap-brand-icon">S</div>
+        <div>
+            <div class="ap-brand-name">SareeBazaar</div>
+            <div class="ap-brand-sub">Admin Panel</div>
+        </div>
     </div>
+
+    <nav class="ap-nav">
+
+        {{-- ── Main ── --}}
+        <div class="ap-nav-section">Main</div>
+
+        @if($u->hasPermission('dashboard.view'))
+        <a href="{{ route('admin.dashboard') }}" class="ap-nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </span>
+            Dashboard
+        </a>
+        @endif
+
+        @if($u->hasPermission('orders.view'))
+        <a href="{{ route('admin.orders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </span>
+            Orders
+        </a>
+        @endif
+
+        @if($u->hasPermission('products.view'))
+        <a href="{{ route('admin.products.index') }}" class="ap-nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </span>
+            Products
+        </a>
+        @endif
+
+        @if($u->hasPermission('categories.view'))
+        <a href="{{ route('admin.categories.index') }}" class="ap-nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </span>
+            Categories
+        </a>
+        @endif
+
+        @if($u->hasPermission('sliders.view'))
+        <a href="{{ route('admin.sliders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </span>
+            Slider
+        </a>
+        @endif
+
+        {{-- ── Content ── --}}
+        <div class="ap-nav-section">Content</div>
+
+        @if($u->hasPermission('contacts.view'))
+        <a href="{{ route('admin.contacts.index') }}" class="ap-nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            Contacts
+        </a>
+        @endif
+
+        @if($u->hasPermission('feedback.view'))
+        <a href="{{ route('admin.feedbacks.index') }}" class="ap-nav-link{{ request()->routeIs('admin.feedbacks.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </span>
+            Feedback
+        </a>
+        @endif
+
+        @if($u->hasPermission('company-profile.view'))
+        <a href="{{ route('admin.company-profiles.index') }}" class="ap-nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </span>
+            Company Profile
+        </a>
+        @endif
+
+        @if($u->hasPermission('pages.edit'))
+        <a href="{{ route('admin.pages.edit') }}" class="ap-nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </span>
+            About Page
+        </a>
+        @endif
+
+        {{-- ── System ── --}}
+        @if($u->hasPermission('users.view') || $u->hasPermission('roles.view') || $u->hasPermission('permissions.view') || $u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
+        <div class="ap-nav-section">System</div>
+        @endif
+
+        @if($u->hasPermission('users.view') || $u->hasPermission('roles.view') || $u->hasPermission('permissions.view'))
+        <div class="ap-nav-group{{ $userMgmtActive ? ' open' : '' }}">
+            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="userMgmtSub">
+                <span class="ap-nav-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </span>
+                <span>User Management</span>
+                <svg class="ap-nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="ap-nav-sub{{ $userMgmtActive ? ' show' : '' }}" id="userMgmtSub">
+                @if($u->hasPermission('users.view'))
+                <a href="{{ route('admin.users.index') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.users.*') ? ' active' : '' }}">Users</a>
+                @endif
+                @if($u->hasPermission('roles.view'))
+                <a href="{{ route('admin.roles.index') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.roles.*') ? ' active' : '' }}">Roles</a>
+                @endif
+                @if($u->hasPermission('permissions.view'))
+                <a href="{{ route('admin.permissions.index') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.permissions.*') ? ' active' : '' }}">Permissions</a>
+                @endif
+            </div>
+        </div>
+        @endif
+
+        @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
+        <div class="ap-nav-group{{ $notifActive ? ' open' : '' }}">
+            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="notifSub">
+                <span class="ap-nav-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </span>
+                <span>Notifications</span>
+                <svg class="ap-nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="ap-nav-sub{{ $notifActive ? ' show' : '' }}" id="notifSub">
+                @if($u->hasPermission('notifications.manage'))
+                <a href="{{ route('admin.notifications.settings.index') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.notifications.settings.*') ? ' active' : '' }}">Settings</a>
+                <a href="{{ route('admin.notifications.templates.index') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.notifications.templates.*') ? ' active' : '' }}">Templates</a>
+                @endif
+                @if($u->hasPermission('notifications.send') || $u->hasPermission('notifications.manage'))
+                <a href="{{ route('admin.notifications.send') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.notifications.send') ? ' active' : '' }}">Send</a>
+                @endif
+                @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
+                <a href="{{ route('admin.notifications.logs') }}" class="ap-nav-sub-link{{ request()->routeIs('admin.notifications.logs') ? ' active' : '' }}">Logs</a>
+                @endif
+            </div>
+        </div>
+        @endif
+
+        {{-- ── Store ── --}}
+        <div class="ap-nav-section">Store</div>
+        <a href="{{ route('home') }}" target="_blank" class="ap-nav-link">
+            <span class="ap-nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </span>
+            <span>View Shop</span>
+            <svg style="margin-left:auto;opacity:.45" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+
+    </nav>
+</aside>
+
+{{-- Sidebar overlay (mobile) --}}
+<div id="apSidebarOverlay" class="ap-sidebar-overlay"></div>
+
+{{-- ══════════════ MAIN ══════════════ --}}
+<div class="ap-main" id="apMain">
+
+    {{-- Header --}}
+    <header class="ap-header">
+        <div class="ap-header-left">
+            <button id="apSidebarToggle" class="ap-toggle-btn" type="button" aria-label="Toggle sidebar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            </button>
+            <div class="ap-breadcrumb">
+                <span class="ap-breadcrumb-home">Admin</span>
+                <span class="ap-breadcrumb-sep">/</span>
+                <span class="ap-breadcrumb-current">@yield('page-heading', 'Dashboard')</span>
+            </div>
+        </div>
+
+        <div class="ap-header-right">
+            @auth
+            <div class="dropdown">
+                <button class="ap-avatar-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="ap-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                    <span class="ap-avatar-name">{{ auth()->user()->name }}</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end ap-dropdown">
+                    <li>
+                        <div class="ap-dropdown-header">
+                            <span class="ap-avatar ap-avatar-lg">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                            <div>
+                                <div style="font-weight:600;font-size:.875rem;">{{ auth()->user()->name }}</div>
+                                <div style="font-size:.75rem;color:#64748b;">{{ auth()->user()->email }}</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li>
+                        <a class="dropdown-item ap-dropdown-item" href="{{ route('admin.profile.edit') }}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item ap-dropdown-item" href="{{ route('admin.profile.password.edit') }}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                            Change Password
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider my-1"></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" class="mb-0">
+                            @csrf
+                            <button type="submit" class="dropdown-item ap-dropdown-item text-danger">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            @endauth
+        </div>
+    </header>
+
+    {{-- Content --}}
+    <main class="ap-content">
+        @if(session('success'))
+        <div class="ap-alert ap-alert-success">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            {{ session('success') }}
+        </div>
+        @endif
+        @if(session('error'))
+        <div class="ap-alert ap-alert-error">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            {{ session('error') }}
+        </div>
+        @endif
+        @yield('content')
+    </main>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -217,33 +280,41 @@
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('.datatable').DataTable({
-            dom: 'Bfrtip',
-            buttons: ['copy', 'excel', 'pdf', 'print'],
-            order: [[0, 'desc']],
-            responsive: true,
-            pageLength: 10,
-        });
+$(document).ready(function () {
+    $('.datatable').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['copy','excel','pdf','print'],
+        order: [[0,'desc']],
+        responsive: true,
+        pageLength: 10,
+    });
+});
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.getElementById('adminMenuToggle');
-            const sidebar = document.getElementById('adminSidebar');
-            const overlay = document.getElementById('adminSidebarOverlay');
+(function () {
+    var sidebar = document.getElementById('apSidebar');
+    var overlay = document.getElementById('apSidebarOverlay');
+    var toggle  = document.getElementById('apSidebarToggle');
 
-            function closeSidebar() {
-                sidebar.classList.remove('show-mobile');
-                overlay.classList.remove('show');
-            }
+    function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('show'); document.body.style.overflow = 'hidden'; }
+    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
 
-            toggle?.addEventListener('click', function () {
-                sidebar.classList.toggle('show-mobile');
-                overlay.classList.toggle('show');
-            });
+    if (toggle)  toggle.addEventListener('click', function () { sidebar.classList.contains('open') ? closeSidebar() : openSidebar(); });
+    if (overlay) overlay.addEventListener('click', closeSidebar);
 
-            overlay?.addEventListener('click', closeSidebar);
+    // Sub-menu toggles
+    document.querySelectorAll('.ap-nav-group-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var sub   = document.getElementById(this.dataset.target);
+            var group = this.closest('.ap-nav-group');
+            if (!sub) return;
+            var opening = !sub.classList.contains('show');
+            document.querySelectorAll('.ap-nav-sub.show').forEach(function (el) { el.classList.remove('show'); });
+            document.querySelectorAll('.ap-nav-group.open').forEach(function (el) { el.classList.remove('open'); });
+            if (opening) { sub.classList.add('show'); group.classList.add('open'); }
         });
     });
+})();
 </script>
+@yield('scripts')
 </body>
 </html>

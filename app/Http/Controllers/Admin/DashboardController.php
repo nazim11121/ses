@@ -12,11 +12,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalProducts = Product::count();
+        $totalProducts   = Product::count();
         $totalCategories = Category::count();
-        $totalOrders = Order::count();
-        $latestOrders = Order::latest()->take(5)->get();
+        $totalOrders     = Order::count();
+        $pendingOrders   = Order::where('status', 'pending')->count();
+        $totalRevenue    = Order::whereNotIn('status', ['cancelled'])->sum('total_amount');
+        $latestOrders    = Order::latest()->take(8)->get();
 
-        return view('admin.dashboard', compact('totalProducts', 'totalCategories', 'totalOrders', 'latestOrders'));
+        return view('admin.dashboard', compact(
+            'totalProducts', 'totalCategories',
+            'totalOrders', 'pendingOrders',
+            'totalRevenue', 'latestOrders'
+        ));
     }
 }
