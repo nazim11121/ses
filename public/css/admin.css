@@ -6,6 +6,7 @@
 /* ── Design tokens ── */
 :root {
     --ap-sidebar-w:      260px;
+    --ap-sidebar-mini-w: 64px;
     --ap-header-h:       64px;
     --ap-sidebar-bg:     #0f172a;
     --ap-sidebar-border: rgba(255,255,255,.07);
@@ -53,7 +54,7 @@ a { text-decoration: none; }
     display: flex;
     flex-direction: column;
     z-index: 1050;
-    transition: transform .28s cubic-bezier(.4,0,.2,1);
+    transition: width .28s cubic-bezier(.4,0,.2,1), transform .28s cubic-bezier(.4,0,.2,1);
     overflow: hidden;
 }
 
@@ -200,9 +201,56 @@ a { text-decoration: none; }
     transition: margin-left .28s cubic-bezier(.4,0,.2,1);
 }
 
-/* Desktop sidebar collapse */
-body.sidebar-collapsed .ap-sidebar { transform: translateX(calc(-1 * var(--ap-sidebar-w))); }
-body.sidebar-collapsed .ap-main   { margin-left: 0; }
+/* ── Mini sidebar (icon-only, desktop) ── */
+body.sidebar-mini .ap-sidebar { width: var(--ap-sidebar-mini-w); overflow: visible; }
+body.sidebar-mini .ap-nav     { overflow: visible; padding: .5rem .5rem; }
+body.sidebar-mini .ap-main    { margin-left: var(--ap-sidebar-mini-w); }
+
+body.sidebar-mini .ap-brand { justify-content: center; padding: 1.2rem .5rem; gap: 0; }
+body.sidebar-mini .ap-brand-name,
+body.sidebar-mini .ap-brand-sub  { display: none; }
+
+body.sidebar-mini .ap-nav-section { display: none; }
+body.sidebar-mini .ap-nav-link {
+    justify-content: center;
+    padding: .65rem;
+    gap: 0;
+}
+body.sidebar-mini .ap-nav-link > span:not(.ap-nav-icon),
+body.sidebar-mini .ap-nav-link > svg { display: none; }
+body.sidebar-mini .ap-nav-icon { width: 36px; height: 36px; }
+body.sidebar-mini .ap-nav-sub { display: none !important; }
+
+/* Tooltip on hover in mini mode */
+body.sidebar-mini .ap-nav-link[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: .4rem .85rem;
+    border-radius: 7px;
+    font-size: .8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,.4);
+    border: 1px solid rgba(255,255,255,.1);
+}
+body.sidebar-mini .ap-nav-link[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    left: calc(100% + 5px);
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: #1e293b;
+    z-index: 9999;
+    pointer-events: none;
+}
 
 /* ── Header ── */
 .ap-header {

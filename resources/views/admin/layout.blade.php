@@ -38,35 +38,35 @@
         <div class="ap-nav-section" data-i18n="Main">Main</div>
 
         @if($u->hasPermission('dashboard.view'))
-        <a href="{{ route('admin.dashboard') }}" class="ap-nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}">
+        <a href="{{ route('admin.dashboard') }}" class="ap-nav-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" data-tooltip="Dashboard">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
             <span data-i18n="Dashboard">Dashboard</span>
         </a>
         @endif
 
         @if($u->hasPermission('orders.view'))
-        <a href="{{ route('admin.orders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.orders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.orders.*') ? ' active' : '' }}" data-tooltip="Orders">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
             <span data-i18n="Orders">Orders</span>
         </a>
         @endif
 
         @if($u->hasPermission('products.view'))
-        <a href="{{ route('admin.products.index') }}" class="ap-nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.products.index') }}" class="ap-nav-link{{ request()->routeIs('admin.products.*') ? ' active' : '' }}" data-tooltip="Products">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
             <span data-i18n="Products">Products</span>
         </a>
         @endif
 
         @if($u->hasPermission('categories.view'))
-        <a href="{{ route('admin.categories.index') }}" class="ap-nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.categories.index') }}" class="ap-nav-link{{ request()->routeIs('admin.categories.*') ? ' active' : '' }}" data-tooltip="Categories">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span>
             <span data-i18n="Categories">Categories</span>
         </a>
         @endif
 
         @if($u->hasPermission('sliders.view'))
-        <a href="{{ route('admin.sliders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.sliders.index') }}" class="ap-nav-link{{ request()->routeIs('admin.sliders.*') ? ' active' : '' }}" data-tooltip="Slider">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
             <span data-i18n="Slider">Slider</span>
         </a>
@@ -75,28 +75,28 @@
         <div class="ap-nav-section" data-i18n="Content">Content</div>
 
         @if($u->hasPermission('contacts.view'))
-        <a href="{{ route('admin.contacts.index') }}" class="ap-nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.contacts.index') }}" class="ap-nav-link{{ request()->routeIs('admin.contacts.*') ? ' active' : '' }}" data-tooltip="Contacts">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
             <span data-i18n="Contacts">Contacts</span>
         </a>
         @endif
 
         @if($u->hasPermission('feedback.view'))
-        <a href="{{ route('admin.feedbacks.index') }}" class="ap-nav-link{{ request()->routeIs('admin.feedbacks.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.feedbacks.index') }}" class="ap-nav-link{{ request()->routeIs('admin.feedbacks.*') ? ' active' : '' }}" data-tooltip="Feedback">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
             <span data-i18n="Feedback">Feedback</span>
         </a>
         @endif
 
         @if($u->hasPermission('company-profile.view'))
-        <a href="{{ route('admin.company-profiles.index') }}" class="ap-nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.company-profiles.index') }}" class="ap-nav-link{{ request()->routeIs('admin.company-profiles.*') ? ' active' : '' }}" data-tooltip="Company Profile">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
             <span data-i18n="Company Profile">Company Profile</span>
         </a>
         @endif
 
         @if($u->hasPermission('pages.edit'))
-        <a href="{{ route('admin.pages.edit') }}" class="ap-nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}">
+        <a href="{{ route('admin.pages.edit') }}" class="ap-nav-link{{ request()->routeIs('admin.pages.*') ? ' active' : '' }}" data-tooltip="About Page">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
             <span data-i18n="About Page">About Page</span>
         </a>
@@ -108,7 +108,7 @@
 
         @if($u->hasPermission('users.view') || $u->hasPermission('roles.view') || $u->hasPermission('permissions.view'))
         <div class="ap-nav-group{{ $userMgmtActive ? ' open' : '' }}">
-            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="userMgmtSub">
+            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="userMgmtSub" data-tooltip="Users">
                 <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                 <span data-i18n="User Management">User Management</span>
                 <svg class="ap-nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -129,7 +129,7 @@
 
         @if($u->hasPermission('notifications.view') || $u->hasPermission('notifications.manage'))
         <div class="ap-nav-group{{ $notifActive ? ' open' : '' }}">
-            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="notifSub">
+            <button class="ap-nav-link ap-nav-group-toggle" type="button" data-target="notifSub" data-tooltip="Notifications">
                 <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
                 <span data-i18n="Notifications">Notifications</span>
                 <svg class="ap-nav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -150,7 +150,7 @@
         @endif
 
         <div class="ap-nav-section" data-i18n="Store">Store</div>
-        <a href="{{ route('home') }}" target="_blank" class="ap-nav-link">
+        <a href="{{ route('home') }}" target="_blank" class="ap-nav-link" data-tooltip="View Shop">
             <span class="ap-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
             <span data-i18n="View Shop">View Shop</span>
             <svg style="margin-left:auto;opacity:.4" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -294,9 +294,9 @@ $(document).ready(function () {
     if (toggle) {
         toggle.addEventListener('click', function () {
             if (window.innerWidth >= 992) {
-                // Desktop: slide sidebar in/out, shift main content
-                var collapsed = document.body.classList.toggle('sidebar-collapsed');
-                localStorage.setItem('ap_sb_collapsed', collapsed ? '1' : '0');
+                // Desktop: toggle icon-only mini sidebar
+                var mini = document.body.classList.toggle('sidebar-mini');
+                localStorage.setItem('ap_sb_mini', mini ? '1' : '0');
             } else {
                 // Mobile: overlay drawer
                 sidebar.classList.contains('open') ? closeSb() : openSb();
@@ -305,14 +305,23 @@ $(document).ready(function () {
     }
     if (overlay) overlay.addEventListener('click', closeSb);
 
-    // Restore desktop collapsed state across page loads
-    if (window.innerWidth >= 992 && localStorage.getItem('ap_sb_collapsed') === '1') {
-        document.body.classList.add('sidebar-collapsed');
+    // Restore mini state across page loads
+    if (window.innerWidth >= 992 && localStorage.getItem('ap_sb_mini') === '1') {
+        document.body.classList.add('sidebar-mini');
     }
 
     /* ── Sub-menu toggles ── */
     document.querySelectorAll('.ap-nav-group-toggle').forEach(function(btn){
         btn.addEventListener('click', function(){
+            // If mini mode, exit it first then open the sub-menu
+            if (document.body.classList.contains('sidebar-mini')) {
+                document.body.classList.remove('sidebar-mini');
+                localStorage.setItem('ap_sb_mini', '0');
+                var sub   = document.getElementById(this.dataset.target);
+                var group = this.closest('.ap-nav-group');
+                if (sub) { sub.classList.add('show'); group.classList.add('open'); }
+                return;
+            }
             var sub   = document.getElementById(this.dataset.target);
             var group = this.closest('.ap-nav-group');
             if (!sub) return;
