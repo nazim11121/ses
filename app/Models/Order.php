@@ -16,6 +16,8 @@ class Order extends Model
         'customer_phone',
         'shipping_address',
         'payment_method',
+        'bkash_transaction_id',
+        'bkash_amount',
         'total_amount',
         'status',
         'courier_provider',

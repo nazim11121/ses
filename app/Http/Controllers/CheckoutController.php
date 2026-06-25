@@ -32,19 +32,26 @@ class CheckoutController extends Controller
         $outsideCharge = $companyProfile ? $companyProfile->outside_dhaka_delivery_charge : 100;
         $total = $items->sum('subtotal');
 
-        return view('checkout.index', compact('items', 'total', 'dhakaCharge', 'outsideCharge'));
+        return view('checkout.index', compact('items', 'total', 'dhakaCharge', 'outsideCharge', 'companyProfile'));
     }
 
     public function placeOrder(Request $request)
     {
-        $request->validate([
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'customer_phone' => 'required|string|max:30',
+        $rules = [
+            'customer_name'    => 'required|string|max:255',
+            'customer_email'   => 'required|email|max:255',
+            'customer_phone'   => 'required|string|max:30',
             'shipping_address' => 'required|string',
-            'delivery_zone' => 'required|in:dhaka,outside',
-            'payment_method' => 'required|in:Cash on Delivery,bKash',
-        ]);
+            'delivery_zone'    => 'required|in:dhaka,outside',
+            'payment_method'   => 'required|in:Cash on Delivery,bKash',
+        ];
+
+        if ($request->payment_method === 'bKash') {
+            $rules['bkash_transaction_id'] = 'required|string|max:100';
+            $rules['bkash_amount']         = 'required|numeric|min:1';
+        }
+
+        $request->validate($rules);
 
         $cart = session('cart', []);
         $products = Product::whereIn('id', array_keys($cart))->get();
@@ -64,15 +71,22 @@ class CheckoutController extends Controller
         $outsideCharge = $companyProfile ? $companyProfile->outside_dhaka_delivery_charge : 100;
         $shippingCharge = $request->delivery_zone === 'outside' ? $outsideCharge : $dhakaCharge;
 
-        $order = Order::create([
-            'customer_name' => $request->customer_name,
-            'customer_email' => $request->customer_email,
-            'customer_phone' => $request->customer_phone,
+        $orderData = [
+            'customer_name'    => $request->customer_name,
+            'customer_email'   => $request->customer_email,
+            'customer_phone'   => $request->customer_phone,
             'shipping_address' => $request->shipping_address,
-            'payment_method' => $request->payment_method,
-            'total_amount' => $total + $shippingCharge,
-            'status' => 'Pending',
-        ]);
+            'payment_method'   => $request->payment_method,
+            'total_amount'     => $total + $shippingCharge,
+            'status'           => 'Pending',
+        ];
+
+        if ($request->payment_method === 'bKash') {
+            $orderData['bkash_transaction_id'] = $request->bkash_transaction_id;
+            $orderData['bkash_amount']         = $request->bkash_amount;
+        }
+
+        $order = Order::create($orderData);
 
         $courierService = app(CourierService::class);
         $courierProvider = $request->input('courier_provider', config('couriers.default', 'mock'));
