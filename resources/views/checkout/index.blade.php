@@ -207,7 +207,7 @@
      bKash Payment Modal
 ══════════════════════════════════════ --}}
 <div class="modal fade" id="bkashModal" tabindex="-1" aria-labelledby="bkashModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:460px">
+    <div class="modal-dialog modal-dialog-scrollable" style="max-width:460px;margin-top:1.5rem">
         <div class="modal-content border-0 shadow-lg" style="border-radius:12px;overflow:hidden">
 
             {{-- Header --}}
@@ -222,7 +222,7 @@
             </div>
 
             {{-- Body --}}
-            <div class="modal-body p-4" style="overflow-y:auto;max-height:calc(100vh - 140px)">
+            <div class="modal-body p-4">
 
                 {{-- Instruction box --}}
                 <div class="bkash-instruction-box">
