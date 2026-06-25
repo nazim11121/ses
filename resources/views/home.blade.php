@@ -6,9 +6,14 @@
 @section('head')
 <style>
 /* ── Solid navbar for home (carousel replaces dark hero) ── */
-.sb-navbar { background:#fff !important; box-shadow:0 1px 8px rgba(0,0,0,.08) !important; }
+.sb-navbar { background:#fff !important; box-shadow:0 1px 8px rgba(0,0,0,.08) !important; border-bottom:1px solid rgba(0,0,0,.06) !important; }
+.sb-navbar .sb-brand { color:var(--sb-text) !important; }
 .sb-navbar .sb-nav-link { color:var(--sb-text-muted) !important; }
-.sb-navbar .sb-nav-link:hover, .sb-navbar .sb-nav-link.active { color:var(--sb-primary) !important; }
+.sb-navbar .sb-nav-link:hover, .sb-navbar .sb-nav-link.active { color:var(--sb-primary) !important; background:var(--sb-primary-light) !important; }
+.sb-navbar .sb-icon-btn { color:var(--sb-text-muted) !important; background:var(--sb-bg2) !important; }
+.sb-navbar .sb-icon-btn:hover { color:var(--sb-primary) !important; background:var(--sb-primary-light) !important; }
+.sb-navbar .sb-hamburger { background:var(--sb-bg2) !important; border-color:var(--sb-border) !important; }
+.sb-navbar .sb-hamburger span { background:var(--sb-text) !important; }
 
 /* ══════════════════════════════════════════
    MODERN HOME SLIDER
