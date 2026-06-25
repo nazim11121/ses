@@ -49,7 +49,17 @@ class ProductController extends Controller
     {
         $product = Product::with('category')->where('slug', $slug)->firstOrFail();
 
-        return view('products.show', compact('product'));
+        $relatedProducts = Product::with('category')
+            ->where('active', true)
+            ->where('id', '!=', $product->id)
+            ->when($product->category_id, function ($q) use ($product) {
+                $q->where('category_id', $product->category_id);
+            })
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+
+        return view('products.show', compact('product', 'relatedProducts'));
     }
 
     public function category($slug)

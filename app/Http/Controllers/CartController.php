@@ -26,12 +26,15 @@ class CartController extends Controller
 
     public function add(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
-        $cart = session('cart', []);
-        $cart[$id] = min($product->stock, ($cart[$id] ?? 0) + 1);
+        $request->validate(['quantity' => 'nullable|integer|min:1|max:100']);
+
+        $product  = Product::findOrFail($id);
+        $qty      = max(1, (int) $request->input('quantity', 1));
+        $cart     = session('cart', []);
+        $cart[$id] = min($product->stock, ($cart[$id] ?? 0) + $qty);
         session(['cart' => $cart]);
 
-        return redirect()->route('cart.index')->with('success', "$product->name added to cart.");
+        return redirect()->back()->with('success', "$product->name added to cart.");
     }
 
     public function update(Request $request, $id)
